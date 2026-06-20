@@ -1,0 +1,6 @@
+{
+  "name": "SalonCapp",
+  "description": "Premium luxury digital marketing, branding, video production, and business growth solutions crafted specifically for salon proprietors.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

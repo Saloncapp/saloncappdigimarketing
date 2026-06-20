@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Custom-crafted high-resolution brand-accurate SalonCapp full-logo favicon -->
+  <g transform="translate(0, 15)">
+    <!-- "Salon" Text -->
+    <text 
+      x="30" 
+      y="130" 
+      font-family="system-ui, -apple-system, BlinkMacSystemFont, Montserrat, Inter, sans-serif" 
+      font-weight="800" 
+      font-size="130" 
+      fill="#22252A" 
+      letter-spacing="-4"
+    >Salon</text>
+
+    <!-- "Capp" Smiley Logo & Text -->
+    <!-- The Custom Smiley 'C' -->
+    <g transform="translate(30, 170)">
+      <!-- Outer smiley 'C' ring -->
+      <path 
+        d="M 115,123 A 68 68 0 1 1 115,13" 
+        fill="none" 
+        stroke="#FFD000" 
+        stroke-width="25" 
+        stroke-linecap="round" 
+      />
+      <!-- Eyes inside 'C' -->
+      <circle cx="58" cy="55" r="9" fill="#FFD000" />
+      <circle cx="92" cy="55" r="9" fill="#FFD000" />
+      <!-- Smile mouth -->
+      <path 
+        d="M 54,78 Q 75,102 96,78" 
+        fill="none" 
+        stroke="#FFD000" 
+        stroke-width="8" 
+        stroke-linecap="round" 
+      />
+      
+      <!-- "app" letters styled horizontally after the 'C' -->
+      <text 
+        x="135" 
+        y="110" 
+        font-family="system-ui, -apple-system, BlinkMacSystemFont, Montserrat, Inter, sans-serif" 
+        font-weight="800" 
+        font-size="140" 
+        fill="#FFD000" 
+        letter-spacing="-3"
+      >app</text>
+    </g>
+
+    <!-- Tagline "Crafted for Salon Proprietors." -->
+    <text 
+      x="35" 
+      y="410" 
+      font-family="system-ui, -apple-system, BlinkMacSystemFont, Montserrat, Inter, sans-serif" 
+      font-weight="600" 
+      font-size="33" 
+      fill="#3A3F47" 
+      letter-spacing="-0.5"
+    >Crafted for Salon Proprietors.</text>
+  </g>
+</svg>
