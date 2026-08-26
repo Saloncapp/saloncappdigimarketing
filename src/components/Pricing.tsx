@@ -1,6 +1,5 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { Check, Sparkles, HelpCircle, ArrowRight, Layers, FileText, ShoppingBag } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, ArrowRight, Layers, FileText, Wand2, ChevronDown } from 'lucide-react';
 
 const PACKAGES = [
   {
@@ -15,8 +14,8 @@ const PACKAGES = [
         title: 'CONTENT',
         items: [
           '12 Professional Reels & Videos',
-          'Festival & Promotional Creatives',
-          'Content Strategy & Planning',
+          'Monthly Festival & Promotion Planning',
+          'Guidance on Camera Angles & Framing',
           'Captions & Hashtag Support'
         ]
       },
@@ -24,9 +23,9 @@ const PACKAGES = [
         title: 'VISIBILITY',
         items: [
           'Instagram & Facebook Management',
-          'Google Business Profile Setup & Optimization',
           'Local Visibility Improvement Strategy',
-          'Competitor Activity Monitoring'
+          'Google Business Profile Content Support',
+          'Monthly Profile & Content Optimization'
         ]
       },
       {
@@ -34,7 +33,8 @@ const PACKAGES = [
         items: [
           'Customer Interaction Guidance',
           'Comment & Message Response Support',
-          'Monthly Offer Planning'
+          'Monthly Offer Planning',
+          'Customer Review & Testimonial Content Guidance'
         ]
       },
       {
@@ -64,9 +64,10 @@ const PACKAGES = [
         title: 'CONTENT',
         items: [
           '20 Premium Reels & Brand Videos',
-          'Monthly Marketing Calendar',
-          'Seasonal Campaign Planning',
-          'Advanced Content Strategy'
+          'Monthly Video Planning Calendar',
+          'Monthly Festival & Promotion Planning',
+          'Content Strategy & Planning',
+          'Captions, Hashtags & Posting Guidance'
         ]
       },
       {
@@ -75,7 +76,8 @@ const PACKAGES = [
           'Google Business Profile Management',
           'Review & Rating Growth Strategy',
           'Competitor Analysis Report',
-          'Local Area Branding Strategy'
+          'Local Area Branding Strategy',
+          'Google Visibility Improvement'
         ]
       },
       {
@@ -84,15 +86,17 @@ const PACKAGES = [
           'Facebook & Instagram Page Management',
           'Meta Ads Management',
           'Lead Generation Campaigns',
-          'Customer Retargeting Campaigns'
+          'Customer Retargeting Campaigns',
+          'Offer & Campaign Strategy for Enquiries'
         ]
       },
       {
-        title: 'REPORTING',
+        title: 'REPORTING & GROWTH',
         items: [
-          'Follower & Subscriber Tracking Dashboard',
+          'Follower & Subscriber Tracking',
           'Monthly Performance Report',
-          'Business Growth Consultation'
+          'Business Growth Consultation',
+          'Monthly Campaign Performance Review'
         ]
       }
     ],
@@ -100,7 +104,8 @@ const PACKAGES = [
       'Increased Customer Enquiries',
       'Higher Google Visibility',
       'Better Social Media Engagement',
-      'Strong Local Brand Recognition'
+      'More Appointment Opportunities',
+      'Stronger Local Brand Recognition'
     ]
   },
   {
@@ -109,41 +114,46 @@ const PACKAGES = [
     period: 'Month',
     isPopular: true,
     tagline: 'Your Complete Salon Growth Partner',
-    desc: 'Designed for ambitious salon brands looking for consistent growth and market leadership.',
+    desc: 'Designed for ambitious salon brands looking for consistent growth, stronger customer acquisition, and long-term market positioning.',
     categories: [
       {
-        title: 'CONTENT',
+        title: 'CONTENT & BRANDING',
         items: [
-          '25–30 Premium Reels & Trend-Based Videos',
-          'Complete Content Production',
-          'Festival Campaign Execution',
-          'Advanced Brand Content Strategy'
+          '26 Premium Reels & Trend-Based Videos',
+          'Monthly Video Planning & Content Calendar',
+          'Content Strategy & Planning',
+          'Monthly Festival & Promotional Creatives',
+          'Advanced Brand Content Strategy',
+          'YouTube Content Support'
         ]
       },
       {
-        title: 'VISIBILITY',
+        title: 'VISIBILITY & BRAND GROWTH',
         items: [
-          'Complete Digital Presence Management',
+          'Complete Digital Presence Management (Instagram, Facebook, YouTube & Google)',
           'Google Business Growth Management',
-          'Brand Positioning Strategy',
-          'Multi-Branch Marketing Support'
+          'Local Market Visibility Strategy',
+          'Multi-Branch Marketing Support',
+          'Online Reputation & Review Growth Strategy'
         ]
       },
       {
         title: 'LEAD GENERATION',
         items: [
-          'Advanced Lead Generation System',
-          'WhatsApp Marketing Campaigns',
-          'Customer Reactivation Campaigns',
-          'Revenue & Offer Planning'
+          'Advanced Lead Generation Strategy',
+          'Meta Ads Management',
+          'Lead Generation Campaigns',
+          'Customer Retargeting Campaigns',
+          'Campaign & Offer Optimization',
+          'Enquiry-to-Appointment Growth Strategy'
         ]
       },
       {
-        title: 'REPORTING',
+        title: 'REPORTING & BUSINESS GROWTH',
         items: [
-          'Dedicated Digital Marketing Manager',
           'Social Media Insights Dashboard',
           'Reach, Engagement & Follower Tracking',
+          'Lead & Campaign Performance Tracking',
           'Monthly Growth Review Meeting',
           'Quarterly Business Growth Roadmap'
         ]
@@ -152,6 +162,8 @@ const PACKAGES = [
     expectedResults: [
       'Higher Customer Footfall',
       'Consistent Lead Generation',
+      'Stronger Online & Local Brand Presence',
+      'Better Customer Acquisition',
       'Strong Local Market Authority',
       'Predictable Business Growth'
     ]
@@ -175,7 +187,66 @@ const ADD_ONS = [
   'Custom Branding Materials'
 ];
 
+const AI_PACKAGE = {
+  name: 'AI Video Creation',
+  tagline: 'Create Engaging AI-Powered Videos for Your Brand',
+  desc: 'Perfect for salons and businesses looking to create creative, promotional, and engaging AI videos for social media.',
+  price: '₹1,000',
+  period: 'Video',
+  highlights: [
+    '1 AI Video Per Week',
+    'Maximum Duration: 60 Seconds',
+    '1 Revision Included'
+  ],
+  included: [
+    'AI-Generated Video',
+    'Concept & Script Planning',
+    'AI-Generated Visuals & Animations',
+    'AI Voice / Audio Support',
+    'Product / Service Integration',
+    'Social Media Ready Video',
+    '1 Revision'
+  ],
+  idealFor: [
+    'Service & Product Promotions',
+    'Festival & Special Offers',
+    'Brand Awareness Videos',
+    'Instagram Reels',
+    'YouTube Shorts',
+    'Creative Promotional Campaigns'
+  ],
+  important: [
+    '₹1,000 is charged per AI video.',
+    'The package includes 1 AI video per week, with a maximum duration of 60 seconds per video. Additional videos in the same week or videos exceeding 60 seconds will be treated as additional requirements and may incur extra charges.',
+    'Production will begin only after receiving the required details and approval of the concept/script.',
+    'Payment must be completed before production begins.'
+  ],
+  priceSummary: [
+    { label: 'Price', value: '₹1,000 / AI Video' },
+    { label: 'Maximum Duration', value: '60 Seconds' },
+    { label: 'Revisions', value: '1 Included' },
+    { label: 'Additional Requirements', value: 'Charged Separately' }
+  ],
+  terms: [
+    'Each video is limited to 60 seconds.',
+    'The ₹1,000 price applies to one AI video.',
+    'More than one video or videos exceeding 60 seconds will be charged separately.',
+    'Production starts only after receiving all required details and approval of the concept/script. One revision is included. Additional revisions or major changes after approval may incur additional charges.',
+    'AI-generated visuals, faces, hands, voices, characters and other elements may have minor variations and may not always appear exactly as requested.',
+    'The client is responsible for providing accurate business, service, pricing, offer and promotional information.',
+    'If a real person\'s face or voice is used or replicated, the required permission/authorization must be provided by the client.',
+    'Payment must be completed before production begins. Any additional charges must be paid before final delivery.',
+    'Delivery time may vary depending on the complexity of the concept, script approval, revisions and AI generation process.',
+    'Third-party AI tools may be used, and their technical limitations or service availability are beyond our direct control.',
+    'The final approved video can be used by the client for business marketing and promotional activities.',
+    'Once the final video is approved, any further changes will be treated as additional revisions and may incur additional charges.',
+    'If the project is cancelled after production has started, the payment/advance may not be refundable depending on the work completed.'
+  ]
+};
+
 export default function Pricing() {
+  const [showAiTerms, setShowAiTerms] = useState(false);
+
   const handleSelectPackage = (packageName: string) => {
     const contactForm = document.getElementById('contact');
     const messageInput = document.getElementById('form_message') as HTMLTextAreaElement;
@@ -321,6 +392,146 @@ export default function Pricing() {
               </button>
             </div>
           ))}
+        </div>
+
+        {/* AI Video Package */}
+        <div className="mb-16 rounded-xl border border-zinc-800/80 bg-[#1a1a1a]/40 overflow-hidden">
+          <div className="p-8 lg:p-10">
+            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 mb-8">
+              <div className="max-w-2xl text-left">
+                <div className="inline-flex items-center gap-2 text-[#FFD000] text-xs font-semibold tracking-widest uppercase mb-3">
+                  <Wand2 className="w-4 h-4" />
+                  <span>AI Package</span>
+                </div>
+                <h3 className="font-display font-black tracking-wider text-2xl sm:text-3xl text-white uppercase">
+                  {AI_PACKAGE.name}
+                </h3>
+                <p className="text-[#FFD000] text-xs font-semibold uppercase tracking-wider mt-2">
+                  {AI_PACKAGE.tagline}
+                </p>
+                <p className="text-zinc-400 text-sm mt-3 font-light leading-relaxed">
+                  {AI_PACKAGE.desc}
+                </p>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {AI_PACKAGE.highlights.map((item) => (
+                    <li
+                      key={item}
+                      className="text-[10px] uppercase tracking-wider font-bold text-zinc-200 bg-black/40 border border-zinc-800 px-2.5 py-1 rounded"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="shrink-0 w-full sm:w-auto lg:min-w-[220px] flex flex-col items-stretch gap-4">
+                <div className="flex items-baseline justify-center gap-1 border border-zinc-800 bg-black/30 rounded-lg px-5 py-4 text-center">
+                  <span className="text-3xl sm:text-4xl font-extrabold text-white font-display leading-none">
+                    {AI_PACKAGE.price}
+                  </span>
+                  <span className="text-zinc-500 font-mono text-xs">/ {AI_PACKAGE.period}</span>
+                </div>
+                <button
+                  onClick={() => handleSelectPackage(AI_PACKAGE.name)}
+                  className="w-full px-6 py-3.5 rounded bg-[#FFD000] text-[#121212] font-black uppercase tracking-wider text-xs hover:bg-[#e6be00] hover:shadow-[0_0_25px_rgba(255,208,0,0.35)] transition-all cursor-pointer"
+                >
+                  Order AI Video
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 text-left">
+              <div className="space-y-2">
+                <h4 className="text-[10px] uppercase tracking-widest font-bold text-zinc-400 border-l border-[#FFD000] pl-2">
+                  What&apos;s Included
+                </h4>
+                <ul className="space-y-1.5 pl-2">
+                  {AI_PACKAGE.included.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-xs text-zinc-300 font-light">
+                      <span className="text-[#FFD000] shrink-0 mt-0.5 font-bold">✓</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="text-[10px] uppercase tracking-widest font-bold text-zinc-400 border-l border-[#FFD000] pl-2">
+                  Ideal For
+                </h4>
+                <ul className="space-y-1.5 pl-2">
+                  {AI_PACKAGE.idealFor.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-xs text-zinc-300 font-light">
+                      <span className="text-[#FFD000] shrink-0 mt-0.5 font-bold">✓</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="space-y-2 md:col-span-2 xl:col-span-1">
+                <h4 className="text-[10px] uppercase tracking-widest font-bold text-zinc-400 border-l border-[#FFD000] pl-2">
+                  Important
+                </h4>
+                <ul className="space-y-2 pl-2">
+                  {AI_PACKAGE.important.map((item) => (
+                    <li key={item} className="text-xs text-zinc-400 font-light leading-relaxed">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="text-[10px] uppercase tracking-widest font-bold text-zinc-400 border-l border-[#FFD000] pl-2">
+                  Price
+                </h4>
+                <ul className="space-y-2 pl-2">
+                  {AI_PACKAGE.priceSummary.map((row) => (
+                    <li key={row.label} className="text-xs">
+                      <span className="block text-zinc-500 uppercase tracking-wider text-[9px] font-bold mb-0.5">
+                        {row.label}
+                      </span>
+                      <span className="text-zinc-200 font-medium">{row.value}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* AI Package Terms & Conditions only */}
+          <div className="border-t border-zinc-800/80 bg-black/20">
+            <button
+              type="button"
+              onClick={() => setShowAiTerms((prev) => !prev)}
+              className="w-full px-8 lg:px-10 py-4 flex items-center justify-between gap-4 text-left cursor-pointer hover:bg-white/[0.02] transition-colors"
+              aria-expanded={showAiTerms}
+            >
+              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-300">
+                <FileText className="w-4 h-4 text-[#FFD000]" />
+                Important Terms — AI Package Only
+              </span>
+              <ChevronDown
+                className={`w-4 h-4 text-zinc-500 transition-transform duration-200 ${showAiTerms ? 'rotate-180' : ''}`}
+              />
+            </button>
+
+            {showAiTerms && (
+              <div className="px-8 lg:px-10 pb-8 text-left">
+                <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-3">
+                  These terms apply only to the AI Video Creation package.
+                </p>
+                <ol className="space-y-2.5 list-decimal list-inside">
+                  {AI_PACKAGE.terms.map((term) => (
+                    <li key={term} className="text-xs text-zinc-400 font-light leading-relaxed">
+                      {term}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Why Choose SalonCapp DM? Banner Box */}

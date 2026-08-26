@@ -12,8 +12,17 @@ const QUICK_LINKS = [
   { id: 'contact', label: 'Contact Us' }
 ];
 
-export default function Footer() {
+type FooterProps = {
+  onNavigateTerms?: () => void;
+  onNavigateHomeSection?: (id: string) => void;
+};
+
+export default function Footer({ onNavigateTerms, onNavigateHomeSection }: FooterProps) {
   const handleScrollTo = (id: string) => {
+    if (onNavigateHomeSection) {
+      onNavigateHomeSection(id);
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       const headerOffset = 80;
@@ -84,6 +93,15 @@ export default function Footer() {
                   </button>
                 </li>
               ))}
+              <li>
+                <button
+                  type="button"
+                  onClick={onNavigateTerms}
+                  className="text-zinc-400 hover:text-[#FFD000] text-sm font-light transition-colors cursor-pointer"
+                >
+                  • Terms &amp; Conditions
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -117,9 +135,18 @@ export default function Footer() {
         {/* Bottom copyright declaration */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500 font-mono">
           <p>© {new Date().getFullYear()} SalonCapp Agency. All Rights Reserved.</p>
-          <p>
-            Exclusively Serving Great Beauty Brands & Salon Proprietors. Built with Pride.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
+            <button
+              type="button"
+              onClick={onNavigateTerms}
+              className="text-zinc-500 hover:text-[#FFD000] transition-colors cursor-pointer"
+            >
+              Terms &amp; Conditions
+            </button>
+            <p>
+              Exclusively Serving Great Beauty Brands &amp; Salon Proprietors. Built with Pride.
+            </p>
+          </div>
         </div>
 
       </div>

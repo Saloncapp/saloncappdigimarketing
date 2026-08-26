@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, ArrowRight, Phone } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 import Logo from './Logo';
 
 const NAV_ITEMS = [
@@ -13,7 +13,12 @@ const NAV_ITEMS = [
   { id: 'contact', label: 'Contact Us' },
 ];
 
-export default function Header() {
+type HeaderProps = {
+  onNavigateHome?: () => void;
+  hideSectionNav?: boolean;
+};
+
+export default function Header({ onNavigateHome, hideSectionNav = false }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,6 +26,8 @@ export default function Header() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+
+      if (hideSectionNav) return;
 
       const scrollPosition = window.scrollY + 120;
       for (const item of NAV_ITEMS) {
@@ -38,7 +45,15 @@ export default function Header() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [hideSectionNav]);
+
+  const handleLogoClick = () => {
+    if (onNavigateHome) {
+      onNavigateHome();
+      return;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleNavClick = (id: string) => {
     setIsOpen(false);
@@ -64,61 +79,65 @@ export default function Header() {
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            <div className="cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <div className="cursor-pointer" onClick={handleLogoClick}>
               <Logo />
             </div>
 
-            {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-8">
-              {NAV_ITEMS.map((item) => (
+            {!hideSectionNav && (
+              <>
+                {/* Desktop Nav */}
+                <nav className="hidden lg:flex items-center gap-8">
+                  {NAV_ITEMS.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => handleNavClick(item.id)}
+                      className={`text-sm font-medium tracking-wide transition-colors duration-200 relative py-1 cursor-pointer ${
+                        activeSection === item.id 
+                          ? 'text-[#FFD000]' 
+                          : 'text-zinc-300 hover:text-white'
+                      }`}
+                    >
+                      {item.label}
+                      {activeSection === item.id && (
+                        <motion.span
+                          layoutId="activeUnderline"
+                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FFD000]"
+                          transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                        />
+                      )}
+                    </button>
+                  ))}
+                </nav>
+
+                <div className="hidden lg:flex items-center gap-4">
+                  <button
+                    onClick={() => handleNavClick('contact')}
+                    className="bg-[#FFD000] text-[#121212] px-5 py-2.5 rounded text-sm font-bold tracking-wide hover:bg-[#e6be00] hover:shadow-[0_0_20px_rgba(255,208,0,0.35)] transition-all duration-300 cursor-pointer flex items-center gap-1.5"
+                    id="header_cta_btn"
+                  >
+                    Let's Talk
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Mobile Menu Button */}
                 <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  className={`text-sm font-medium tracking-wide transition-colors duration-200 relative py-1 cursor-pointer ${
-                    activeSection === item.id 
-                      ? 'text-[#FFD000]' 
-                      : 'text-zinc-300 hover:text-white'
-                  }`}
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="lg:hidden p-2 text-zinc-300 hover:text-[#FFD000] cursor-pointer"
+                  aria-label="Toggle menu"
+                  id="mobile_menu_trigger"
                 >
-                  {item.label}
-                  {activeSection === item.id && (
-                    <motion.span
-                      layoutId="activeUnderline"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FFD000]"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
+                  {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                 </button>
-              ))}
-            </nav>
-
-            <div className="hidden lg:flex items-center gap-4">
-              <button
-                onClick={() => handleNavClick('contact')}
-                className="bg-[#FFD000] text-[#121212] px-5 py-2.5 rounded text-sm font-bold tracking-wide hover:bg-[#e6be00] hover:shadow-[0_0_20px_rgba(255,208,0,0.35)] transition-all duration-300 cursor-pointer flex items-center gap-1.5"
-                id="header_cta_btn"
-              >
-                Let's Talk
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden p-2 text-zinc-300 hover:text-[#FFD000] cursor-pointer"
-              aria-label="Toggle menu"
-              id="mobile_menu_trigger"
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+              </>
+            )}
           </div>
         </div>
       </header>
 
       {/* Mobile Sidebar Navigation Drawer */}
       <AnimatePresence>
-        {isOpen && (
+        {isOpen && !hideSectionNav && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}

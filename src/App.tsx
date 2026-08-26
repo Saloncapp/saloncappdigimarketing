@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Overview from './components/Overview';
@@ -11,47 +11,94 @@ import VideoPortfolio from './components/VideoPortfolio';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import FloatingButtons from './components/FloatingButtons';
+import Terms from './components/Terms';
+
+function isTermsPath(pathname: string) {
+  return pathname.replace(/\/$/, '') === '/terms';
+}
 
 export default function App() {
+  const [showTerms, setShowTerms] = useState(() => isTermsPath(window.location.pathname));
+
+  const goHome = useCallback((sectionId?: string) => {
+    const path = sectionId ? `/#${sectionId}` : '/';
+    window.history.pushState({}, '', path);
+    setShowTerms(false);
+    if (!sectionId) {
+      window.scrollTo(0, 0);
+      return;
+    }
+    // Scroll after home sections mount
+    requestAnimationFrame(() => {
+      window.setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (!element) return;
+        const headerOffset = 80;
+        const offsetPosition =
+          element.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      }, 50);
+    });
+  }, []);
+
+  const goTerms = useCallback(() => {
+    window.history.pushState({}, '', '/terms');
+    setShowTerms(true);
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const onPopState = () => {
+      const onTerms = isTermsPath(window.location.pathname);
+      setShowTerms(onTerms);
+      if (onTerms) {
+        window.scrollTo(0, 0);
+        return;
+      }
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        requestAnimationFrame(() => {
+          window.setTimeout(() => {
+            const element = document.getElementById(hash);
+            if (!element) return;
+            const headerOffset = 80;
+            const offsetPosition =
+              element.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+          }, 50);
+        });
+      } else {
+        window.scrollTo(0, 0);
+      }
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#121212] flex flex-col justify-between selection:bg-[#FFD000]/30 selection:text-white">
-      {/* Floating Headers */}
-      <Header />
+      <Header onNavigateHome={() => goHome()} hideSectionNav={showTerms} />
 
-      {/* Main Core Elements */}
       <main className="flex-grow">
-        {/* Hero Banner Grid block */}
-        <Hero />
-
-        {/* Overview App simulator block */}
-        <Overview />
-
-        {/* Visionary Leadership Block (Jawahar Executive Panel) */}
-        <Leadership />
-
-        {/* Core Values Pillars */}
-        <CoreValues />
-
-        {/* Refined Partnership Methodology */}
-        <Methodology />
-
-        {/* Video Portfolio grid (transformations & AI editing tab decks) */}
-        <VideoPortfolio />
-
-        {/* Pricing models & Add-on list decks */}
-        <Pricing />
-
-        {/* Case Studies Review boards */}
-        <Testimonials />
-
-        {/* Contacts Forms & Maps guides */}
-        <Contact />
+        {showTerms ? (
+          <Terms onBackHome={() => goHome()} />
+        ) : (
+          <>
+            <Hero />
+            <Overview />
+            <Leadership />
+            <CoreValues />
+            <Methodology />
+            <VideoPortfolio />
+            <Pricing />
+            <Testimonials />
+            <Contact />
+          </>
+        )}
       </main>
 
-      {/* Footers */}
-      <Footer />
+      <Footer onNavigateTerms={goTerms} onNavigateHomeSection={goHome} />
 
-      {/* Persistent floating triggers (WA/Call/IG/ScaleTop) */}
       <FloatingButtons />
     </div>
   );
